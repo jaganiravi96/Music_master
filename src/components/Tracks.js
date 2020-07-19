@@ -19,6 +19,19 @@ class Tracks extends Component {
 			}
 		}
 	}
+	trackIcon = track => {
+		if (!track.preview_url) {
+			return <span>N/A</span>
+		}
+		if (
+			this.state.playing &&
+			this.state.playingPreviewUrl === track.preview_url
+		) {
+			return <span>| |</span>
+		}
+
+		return <span>&#9654;</span>
+	}
 	render() {
 		const { tracks } = this.props
 		return (
@@ -27,18 +40,18 @@ class Tracks extends Component {
 					const { id, name, album, preview_url } = track
 
 					return (
-						<div key={id} onClick={this.playAudio(preview_url)}>
+						<div
+							key={id}
+							onClick={this.playAudio(preview_url)}
+							className='track'
+						>
 							<img
 								src={album.images[0].url}
 								alt='track_image'
-								style={{
-									width: 20,
-									height: 20,
-									borderRadius: 10,
-									objectFit: 'cover'
-								}}
+								className='track-image'
 							/>
-							<p>{name}</p>
+							<p className='track-text'>{name}</p>
+							<p className='track-icon'>{this.trackIcon(track)}</p>
 						</div>
 					)
 				})}
